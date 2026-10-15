@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Peak Hunter Map</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="brand">Peak Hunter</div>
+      <div class="status">Trail Map Ready</div>
+    </div>
+
+    <div id="map" aria-label="Peak Hunter map"></div>
+
+    <div class="legend">
+      <h3>Legend</h3>
+      <div class="legend-item"><span class="dot peak"></span> Peak</div>
+      <div class="legend-item"><span class="dot camp"></span> Camp</div>
+      <div class="legend-item"><span class="dot route"></span> Route</div>
+    </div>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script>
+        const CEBU_CITY = [10.3157, 123.8854];
+        const INITIAL_ZOOM = 14.5;
+      const map = L.map('map', {
+        zoomControl: true,
+        scrollWheelZoom: true,
+      }).setView(CEBU_CITY, INITIAL_ZOOM);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 18,
+      }).addTo(map);
+
+      L.polyline(routeCoords, {
+        color: '#22c55e',
+        weight: 5,
+        opacity: 0.9,
+        dashArray: '10, 12'
+      }).addTo(map);
+      
+      peakData.forEach((peak) => {
+        const marker = L.marker(peak.coords).addTo(map);
+        marker.bindPopup(`
+          <div class="popup-title">${peak.name}</div>
+          <div>Elevation: ${peak.elevation}</div>
+          <div>${peak.desc}</div>
+        `);
+      });
+
+      campData.forEach((camp) => {
+        const icon = L.divIcon({
+          className: 'custom-div-icon',
+          html: '<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:#3b82f6;border:2px solid #dbeafe;box-shadow:0 0 0 2px rgba(59,130,246,0.15);"></span>',
+          iconSize: [18, 18],
+          iconAnchor: [9, 9]
+        });
+
+        const marker = L.marker(camp.coords, { icon }).addTo(map);
+        marker.bindPopup(`
+          <div class="popup-title">${camp.name}</div>
+          <div>${camp.desc}</div>
+        `);
+      });
+
+      const bounds = L.latLngBounds(routeCoords);
+      map.fitBounds(bounds.pad(0.4));
+    </script>
+  </body>
+</html>

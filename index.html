@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Discover and track mountain peaks with Peak Hunter.">
+	<title>Peak Hunter</title>
+</head>
+<body>
+	<header>
+		<a href="#home" aria-label="Peak Hunter home">Peak Hunter</a>
+		<nav aria-label="Main navigation">
+			<a href="#explore">Explore</a>
+			<a href="#saved">My Peaks</a>
+			<a href="#about">About</a>
+		</nav>
+	</header>
+
+	<main id="home">
+		<section aria-labelledby="hero-title">
+			<h1 id="hero-title">Find your next peak</h1>
+			<p>Explore mountains, plan an adventure, and keep track of the peaks you conquer.</p>
+			<a href="#explore">Start exploring</a>
+		</section>
+
+		<section id="explore" aria-labelledby="explore-title">
+			<h2 id="explore-title">Explore peaks</h2>
+			<form role="search">
+				<label for="peak-search">Search by peak or location</label>
+				<input id="peak-search" name="q" type="search" placeholder="e.g. Mount Rainier">
+				<button type="submit">Search</button>
+			</form>
+			<div id="peak-list" aria-live="polite">
+				<!-- Peak cards will be rendered here. -->
+			</div>
+		</section>
+
+		<section id="saved" aria-labelledby="saved-title">
+			<h2 id="saved-title">My peaks</h2>
+			<div id="saved-peaks">
+				<!-- Saved peaks and progress will be rendered here. -->
+			</div>
+		</section>
+
+		<section id="about" aria-labelledby="about-title">
+			<h2 id="about-title">About Peak Hunter</h2>
+			<p>Your home base for discovering peaks and organizing your mountain adventures.</p>
+		</section>
+	</main>
+
+	<footer>
+		<p>&copy; <span id="year"></span> Peak Hunter</p>
+	</footer>
+</body>
+</html>
