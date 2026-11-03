@@ -68,6 +68,16 @@ A typical page will look like this:
 
 **Rule that matters for GitHub Pages:** use relative paths (`style.css`, `images/foo.jpg`, `peaks/osmena.html`), never `/style.css`. A leading `/` breaks the site at `https://alyyyyyanna.github.io/Peak-Hunter/`.
 
+## Optional: interactive photo, panorama, or 3D view
+
+This is possible, but effort depends on the source:
+
+- **Zoomable photo:** easiest. A high-resolution image can be displayed with an image-zoom viewer; it remains a flat image.
+- **360° panorama:** a practical next step. A viewer such as Pannellum provides drag-to-look and zoom, but you need a 360° photo (often stitched from multiple shots). A regular photo cannot show the surroundings outside its frame.
+- **True 3D from photos/video:** considerably harder. It generally requires many overlapping photos or video frames, photogrammetry software, model cleanup, and export to a web format such as `.glb`. One picture alone cannot recreate a complete, accurate 3D scene. Models may also be large and slow on phones.
+
+Keep this optional until the static pages and map are working. Start by adding a zoomable image or panorama to one peak detail page. If you later have a 3D model, a web component such as `<model-viewer>` can embed it; check its size and mobile performance. This is separate from the Leaflet overview map.
+
 Shared data lives in `peaks.json` (name, lat, lng, image path, detail URL). The Map page **fetches** that file so you do not copy 16 coordinates into 16 HTML files by hand.
 
 ```mermaid

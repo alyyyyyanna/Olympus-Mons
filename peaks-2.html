@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover and track mountain peaks with Peak Hunter.">
+  <title>Peaks 2 | Peak Hunter</title>
+
+  <!--
+    Default look for this page. Every rule below uses :where(), which gives it
+    ZERO specificity, so ANY rule in your own style.css overrides it
+    (as long as your selector matches, e.g. ".ph-card { border-color: red; }").
+    All class names start with "ph-" so they won't clash with other pages.
+  -->
+  <style>
+    /* Fit-to-screen layout: header + title + 2 rows of cards + pager = exactly one screen. */
+    :where(body.ph-peaks-page) {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      height: 100dvh;
+      margin: 0;
+      min-width: 320px;
+      color: #111;
+      background: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    :where(.ph-peaks-page *, .ph-peaks-page *::before, .ph-peaks-page *::after) {
+      box-sizing: border-box;
+    }
+
+    /* Header + nav (top right) */
+    :where(.ph-peaks-page .ph-header) {
+      flex: none;
+      display: flex;
+      justify-content: flex-end;
+      padding: 8px 14px 0;
+    }
+    :where(.ph-peaks-page .ph-nav) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    :where(.ph-peaks-page .ph-nav a) {
+      min-width: 82px;
+      padding: 2px 10px;
+      border: 1px solid #333;
+      color: inherit;
+      font-size: 14px;
+      text-align: center;
+      text-decoration: none;
+      text-transform: lowercase;
+    }
+    :where(.ph-peaks-page .ph-nav a:hover, .ph-peaks-page .ph-nav a:focus-visible) {
+      background: #eee;
+    }
+
+    /* main fills whatever height is left under the header */
+    :where(.ph-peaks-page main) {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    :where(.ph-peaks-page .ph-title) {
+      flex: none;
+      margin: 0 0 clamp(6px, 1.5vh, 16px);
+      font-size: clamp(18px, 3.5vh, 26px);
+      font-weight: 400;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    /* 4 columns x 2 rows; the rows share the leftover height equally */
+    :where(.ph-peaks-page .ph-grid) {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 2.5vh, 28px) clamp(10px, 2vw, 32px);
+      width: 100%;
+      max-width: 1100px;
+      min-height: 0;
+      margin: 0 auto;
+      padding: 0 24px clamp(6px, 1.5vh, 14px);
+    }
+    :where(.ph-peaks-page .ph-card) {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      border: 1px solid #333;
+      background: #fff;
+    }
+    /* the picture stretches to fill the card above the name */
+    :where(.ph-peaks-page .ph-image-link) {
+      display: block;
+      flex: 1 1 0;
+      min-height: 0;
+      margin: clamp(6px, 1.2vh, 10px) clamp(6px, 1.2vh, 10px) 0;
+      line-height: 0;
+    }
+    :where(.ph-peaks-page .ph-image-link:hover, .ph-peaks-page .ph-image-link:focus-visible) {
+      opacity: 0.85;
+    }
+    :where(.ph-peaks-page .ph-art) {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    :where(.ph-peaks-page .ph-image-link img) {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    :where(.ph-peaks-page .ph-name) {
+      flex: none;
+      min-height: 2.4em;
+      margin: 0;
+      padding: 4px 44px clamp(4px, 1vh, 10px);
+      font-size: clamp(12px, 2.5vh, 20px);
+      font-weight: 400;
+      line-height: 1.2;
+      text-align: center;
+    }
+    :where(.ph-peaks-page .ph-info) {
+      position: absolute;
+      right: 6px;
+      bottom: 6px;
+      display: grid;
+      width: clamp(22px, 4vh, 30px);
+      height: clamp(22px, 4vh, 30px);
+      place-items: center;
+      border: 3px solid currentColor;
+      border-radius: 50%;
+      color: inherit;
+      font-size: clamp(13px, 2.6vh, 20px);
+      font-weight: 700;
+      line-height: 1;
+      text-decoration: none;
+    }
+    :where(.ph-peaks-page .ph-info:hover, .ph-peaks-page .ph-info:focus-visible) {
+      background: #eee;
+    }
+
+    /* Page switcher (optional: delete the <nav class="ph-pager"> block if unwanted) */
+    :where(.ph-peaks-page .ph-pager) {
+      flex: none;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      padding: 0 24px clamp(6px, 1.5vh, 14px);
+      font-size: 14px;
+    }
+    :where(.ph-peaks-page .ph-pager a) {
+      padding: 1px 14px;
+      border: 1px solid #333;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Narrow / portrait screens: 2 columns x 4 rows, still one screen */
+    @media (max-width: 700px) {
+      :where(.ph-peaks-page .ph-header) { justify-content: center; }
+      :where(.ph-peaks-page .ph-grid) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: repeat(4, minmax(0, 1fr));
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+      :where(.ph-peaks-page .ph-name) { padding-left: 36px; padding-right: 36px; }
+    }
+  </style>
+
+  <!-- Your own stylesheet goes AFTER the block above so it can override it -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="ph-peaks-page">
+
+  <!-- Shared placeholder picture (green hills + cloud). Drawn once, reused by every card. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="ph-sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#bce8fa" />
+        <stop offset="1" stop-color="#effcff" />
+      </linearGradient>
+      <symbol id="ph-art" viewBox="0 0 176 160">
+        <rect width="176" height="160" fill="url(#ph-sky)" />
+        <path d="M54 46c-8 0-14-5-14-12s6-12 14-12c2-8 9-13 17-13 10 0 17 8 18 17 8 0 14 5 14 11 0 6-5 9-10 9H54z" fill="#fff" />
+        <path d="M0 108c20-3 36 0 56 5 24 6 46 0 66 6 14 4 26 9 54 5v36H0z" fill="#c6e17f" />
+        <path d="M0 140c22 0 40-9 62-14 22-6 48-3 66 4 14 5 28 9 48 6v14H0z" fill="#86a900" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="ph-header">
+    <nav class="ph-nav" aria-label="Main navigation">
+      <a href="index.html">home</a>
+      <a href="map.html">map</a>
+      <a href="peaks-1.html" aria-current="page">peaks</a>
+      <a href="about.html">about us</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1 class="ph-title">Peak Hunter</h1>
+
+    <!--
+      HOW TO ADD YOUR LINKS
+      In each card, change href="#" in two places:
+        1. class="ph-image-link"  -> the picture
+        2. class="ph-info"        -> the (i) button
+      Example: href="peaks/ablayan-peak.html"  or  href="https://example.com"
+    -->
+    <section class="ph-grid" aria-label="Peaks 9 to 16">
+
+      <article class="ph-card">
+        <a class="ph-image-link" href="peaks/Ablayan.html" aria-label="Ablayan Peak photo">
+          <svg class="ph-art" viewBox="0 0 176 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder landscape for Ablayan Peak"><use href="#ph-art" /></svg>
+        </a>
+        <h2 class="ph-name">Ablayan Peak</h2>
+        <a class="ph-info" href="peaks/Ablayan.html" aria-label="More information about Ablayan Peak" title="More information">i</a>
+      </article>
+
+      <article class="ph-card">
+        <a class="ph-image-link" href="peaks/Mt_Mago.html" aria-label="Mount Mago photo">
+          <svg class="ph-art" viewBox="0 0 176 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder landscape for Mount Mago"><use href="#ph-art" /></svg>
+        </a>
+        <h2 class="ph-name">Mount Mago</h2>
+        <a class="ph-info" href="peaks/Mt_Mago.html" aria-label="More information about Mount Mago" title="More information">i</a>
+      </article>
+
+      <article class="ph-card">
+        <a class="ph-image-link" href="peaks/Tabon.html" aria-label="Tabon Peak photo">
+          <svg class="ph-art" viewBox="0 0 176 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder landscape for Tabon Peak"><use href="#ph-art" /></svg>
+        </a>
+        <h2 class="ph-name">Tabon Peak</h2>
+        <a class="ph-info" href="peaks/Tabon.html" aria-label="More information about Tabon Peak" title="More information">i</a>
+      </article>
+
+      <article class="ph-card">
+        <a class="ph-image-link" href="peaks/Mt_Lanaya.html" aria-label="Mount Lanaya photo">
+          <svg class="ph-art" viewBox="0 0 176 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder landscape for Mount Lanaya"><use href="#ph-art" /></svg>
+        </a>
+        <h2 class="ph-name">Mount Lanaya</h2>
+        <a class="ph-info" href="peaks/Mt_Lanaya.html" aria-label="More information about Mount Lanaya" title="More information">i</a>
+      </article>
+
+      <article class="ph-card">
+        <a class="ph-image-link" href="peaks/Pangilatan.html" aria-label="Pangilatan Peak photo">
+          <svg class="ph-art" viewBox="0 0 176 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder landscape for Pangilatan Peak"><use href="#ph-art" /></svg>
+        </a>
+        <h2 class="ph-name">Pangilatan Peak</h2>
+        <a class="ph-info" href="peaks/Pangilatan.html" aria-label="More information about Pangilatan Peak" title="More information">i</a>
+      </article>
+
+      <article class="ph-card">
+        <a class="ph-image-link" href="peaks/Mt_Alpaco.html" aria-label="Mount Alpaco photo">
+          <svg class="ph-art" viewBox="0 0 176 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder landscape for Mount Alpaco"><use href="#ph-art" /></svg>
+        </a>
+        <h2 class="ph-name">Mount Alpaco</h2>
+        <a class="ph-info" href="peaks/Mt_Alpaco.html" aria-label="More information about Mount Alpaco" title="More information">i</a>
+      </article>
+
+      <article class="ph-card">
+        <a class="ph-image-link" href="peaks/Licos_Peak.html" aria-label="Licos Peak photo">
+          <svg class="ph-art" viewBox="0 0 176 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder landscape for Licos Peak"><use href="#ph-art" /></svg>
+        </a>
+        <h2 class="ph-name">Licos Peak</h2>
+        <a class="ph-info" href="peaks/Licos_Peak.html" aria-label="More information about Licos Peak" title="More information">i</a>
+      </article>
+
+      <article class="ph-card">
+        <a class="ph-image-link" href="peaks/Mt_Lantawan.html" aria-label="Mount Lantawan photo">
+          <svg class="ph-art" viewBox="0 0 176 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder landscape for Mount Lantawan"><use href="#ph-art" /></svg>
+        </a>
+        <h2 class="ph-name">Mount Lantawan</h2>
+        <a class="ph-info" href="peaks/Mt_Lantawan.html" aria-label="More information about Mount Lantawan" title="More information">i</a>
+      </article>
+
+    </section>
+
+    <nav class="ph-pager" aria-label="Peaks pages">
+      <a href="peaks-1.html">&larr; previous page</a>
+    </nav>
+  </main>
+
+    <script>
+      // Load each card's image path from the existing peaks JSON data.
+      (async () => {
+        const jsonPaths = ["peaks.json", "data/peaks.json", "data.json", "images.json"];
+        let data;
+
+        for (const path of jsonPaths) {
+          try {
+            const response = await fetch(path);
+            if (response.ok) {
+              data = await response.json();
+              break;
+            }
+          } catch (_) {
+            // Try the next common JSON location.
+          }
+        }
+        if (!data) return;
+
+        const normalize = value => String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+        const imageFields = ["image", "imageurl", "image_url", "img", "photo", "photourl", "picture", "src"];
+        const nameFields = ["name", "title", "peak", "mountain", "peakname", "peak_name"];
+        const records = [];
+
+        const collect = (value, key = "") => {
+          if (Array.isArray(value)) {
+            value.forEach(item => collect(item));
+          } else if (value && typeof value === "object") {
+            records.push({ value, key });
+            Object.entries(value).forEach(([childKey, child]) => collect(child, childKey));
+          } else if (typeof value === "string" && /\.(avif|gif|jpe?g|png|svg|webp)(\?.*)?$/i.test(value)) {
+            records.push({ value: { image: value }, key });
+          }
+        };
+        collect(data);
+
+        document.querySelectorAll(".ph-card").forEach(card => {
+          const title = card.querySelector(".ph-name")?.textContent.trim();
+          const target = normalize(title);
+          const match = records.find(({ value, key }) => {
+            const names = nameFields.map(field => value[field]).filter(Boolean);
+            if (key) names.push(key);
+            return names.some(name => normalize(name) === target);
+          });
+          if (!match) return;
+
+          const image = imageFields.map(field => match.value[field]).find(Boolean);
+          const imagePath = Array.isArray(image) ? image[0] : image;
+          if (typeof imagePath !== "string") return;
+
+          const link = card.querySelector(".ph-image-link");
+          const img = document.createElement("img");
+          img.src = imagePath;
+          img.alt = `${title} photo`;
+          link.replaceChildren(img);
+        });
+      })();
+    </script>
+
+</body>
+</html>

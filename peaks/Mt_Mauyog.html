@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Details and location of this peak on Peak Hunter.">
+  <!-- EDIT 1 of 4: the browser-tab title (the script below also sets it from PEAK.name) -->
+  <title>Peak Name | Peak Hunter</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <!--
+    Default look. Every rule uses :where() so it has ZERO specificity:
+    any matching rule in your own style.css overrides it. Class names start
+    with "pd-" so they won't clash with other pages.
+  -->
+  <style>
+    :where(body.pd-peak-page) {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      height: 100dvh;
+      margin: 0;
+      min-width: 320px;
+      color: #111;
+      background: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    :where(.pd-peak-page *, .pd-peak-page *::before, .pd-peak-page *::after) {
+      box-sizing: border-box;
+    }
+
+    /* Nav (top right) */
+    :where(.pd-peak-page .pd-header) {
+      flex: none;
+      display: flex;
+      justify-content: flex-end;
+      padding: 8px 14px 0;
+    }
+    :where(.pd-peak-page .pd-nav) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    :where(.pd-peak-page .pd-nav a) {
+      min-width: 82px;
+      padding: 2px 10px;
+      border: 1px solid #333;
+      color: inherit;
+      font-size: 14px;
+      text-align: center;
+      text-decoration: none;
+      text-transform: lowercase;
+    }
+    :where(.pd-peak-page .pd-nav a:hover, .pd-peak-page .pd-nav a:focus-visible) {
+      background: #eee;
+    }
+
+    /* Title + two columns fill the rest of the screen */
+    :where(.pd-peak-page main) {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    :where(.pd-peak-page .pd-title) {
+      flex: none;
+      margin: 0 0 clamp(8px, 2vh, 20px);
+      font-size: clamp(20px, 4vh, 28px);
+      font-weight: 400;
+      text-align: center;
+    }
+    :where(.pd-peak-page .pd-layout) {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+      gap: clamp(16px, 3vw, 40px);
+      width: 100%;
+      max-width: 1200px;
+      min-height: 0;
+      margin: 0 auto;
+      padding: 0 24px clamp(10px, 2.5vh, 24px);
+    }
+
+    /* Left column: photo box on top, description under it */
+    :where(.pd-peak-page .pd-info) {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(10px, 2vh, 24px);
+      min-height: 0;
+    }
+    :where(.pd-peak-page .pd-photo-box) {
+      flex: 0 0 42%;
+      min-height: 0;
+      padding: clamp(6px, 1.2vh, 10px);
+      border: 1px solid #333;
+    }
+    /* works for both the placeholder <svg> and a real <img> */
+    :where(.pd-peak-page .pd-photo) {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    :where(.pd-peak-page .pd-text) {
+      flex: 1;
+      min-height: 0;
+      margin: 0;
+      overflow-y: auto;
+      padding: 0 8px;
+      font-size: clamp(14px, 2.3vh, 18px);
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    /* Right column: map box */
+    :where(.pd-peak-page .pd-map-box) {
+      min-height: 0;
+      padding: clamp(6px, 1.2vh, 12px);
+      border: 1px solid #333;
+    }
+    :where(.pd-peak-page #pd-map) {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Narrow / portrait screens: stack everything and let the page scroll */
+    @media (max-width: 700px) {
+      :where(body.pd-peak-page) { height: auto; }
+      :where(.pd-peak-page .pd-header) { justify-content: center; }
+      :where(.pd-peak-page .pd-layout) {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 0 14px 20px;
+      }
+      :where(.pd-peak-page .pd-photo-box) { flex: none; height: 38vh; }
+      :where(.pd-peak-page .pd-text) { flex: none; overflow: visible; }
+      :where(.pd-peak-page .pd-map-box) { height: 55vh; }
+    }
+  </style>
+
+  <!-- Your own stylesheet goes AFTER the block above so it can override it -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="pd-peak-page">
+
+  <header class="pd-header">
+    <nav class="pd-nav" aria-label="Main navigation">
+      <a href="../index.html">home</a>
+<a href="../map.html">map</a>
+<a href="../peaks-1.html">peaks</a>
+<a href="../about.html">about us</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- EDIT 2 of 4: the peak name (the script below also sets it from PEAK.name) -->
+    <h1 class="pd-title" id="pd-peak-name">Mount Mauyog</h1>
+
+    <div class="pd-layout">
+      <section class="pd-info" aria-label="About this peak">
+
+        <!-- EDIT 3 of 4: the photo.
+             Placeholder picture below. To use a real photo, delete the whole <svg> and put:
+             <img class="pd-photo" src="images/your-photo.jpg" alt="Photo of Peak Name"> -->
+         <div class="pd-photo-box">
+          <img class="pd-photo" id="pd-peak-photo" src="../images/Mauyog.jpg" alt="Photo of Tabon Peak">
+        </div>
+
+        <!-- EDIT 4 of 4: the description -->
+        <p class="pd-text">
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+          dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+          mollit anim id est laborum."
+        </p>
+      </section>
+
+      <section class="pd-map-box" aria-label="Map showing the location of this peak">
+        <div id="pd-map" role="application" aria-label="Interactive map of this peak"></div>
+      </section>
+    </div>
+  </main>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script>
+    /* ------------------------------------------------------------------
+       EDIT THIS BLOCK FOR EACH PEAK. Coordinates are in peaks.json.
+       Example (Osmeña Peak): name "Osmeña Peak", lat 9.821087, lng 123.443591
+       ------------------------------------------------------------------ */
+    const PEAK = {
+      name: "Mount Mauyog",
+      lat: 10.460993,
+      lng: 123.828236,
+      zoom: 14,
+      images:"../images/Mauyog.jpg"
+    };
+
+    (() => {
+      // Fill in the page title and heading from the name above.
+      document.title = PEAK.name + " | Peak Hunter";
+      document.getElementById("pd-peak-name").textContent = PEAK.name;
+
+      const map = L.map("pd-map", { scrollWheelZoom: true }).setView([PEAK.lat, PEAK.lng], PEAK.zoom);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+        maxZoom: 18
+      }).addTo(map);
+
+      L.marker([PEAK.lat, PEAK.lng]).addTo(map).bindPopup(PEAK.name);
+    })();
+  </script>
+</body>
+</html>

@@ -10,73 +10,203 @@
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin=""
     />
+    <style>
+      /* Styles on this page are namespaced so they won't affect other pages. */
+      body.peak-hunter-map-page {
+        --ph-border: #333;
+        --ph-sidebar-width: 310px;
+        --ph-layout-gap: 22px;
+        margin: 0;
+        min-width: 320px;
+        min-height: 100vh;
+        color: #111;
+        background: #fff;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      body.peak-hunter-map-page *,
+      body.peak-hunter-map-page *::before,
+      body.peak-hunter-map-page *::after {
+        box-sizing: border-box;
+      }
+      body.peak-hunter-map-page .page-header {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0 14px;
+      }
+      body.peak-hunter-map-page .nav-links {
+        display: flex;
+        gap: 10px;
+      }
+      body.peak-hunter-map-page .nav-links a {
+        min-width: 82px;
+        padding: 4px 10px;
+        border: 1px solid var(--ph-border);
+        color: inherit;
+        text-align: center;
+        text-decoration: none;
+        text-transform: lowercase;
+      }
+      body.peak-hunter-map-page .nav-links a:hover,
+      body.peak-hunter-map-page .nav-links a:focus-visible {
+        background: #eee;
+      }
+      body.peak-hunter-map-page .main-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) var(--ph-sidebar-width);
+        gap: var(--ph-layout-gap);
+        height: calc(100vh - 48px);
+        min-height: 480px;
+        padding: 0 22px 18px 38px;
+      }
+      body.peak-hunter-map-page #map {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        border: 1px solid #bbb;
+      }
+      body.peak-hunter-map-page .sidebar {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0 8px;
+      }
+      body.peak-hunter-map-page .brand {
+        margin: 20px 0 36px;
+        font-size: 30px;
+        font-weight: 400;
+        text-align: center;
+      }
+      body.peak-hunter-map-page .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      body.peak-hunter-map-page .peak-select {
+        width: 100%;
+        margin-bottom: 36px;
+        padding: 2px 10px;
+        border: 2px solid var(--ph-border);
+        border-radius: 6px;
+        font: inherit;
+        font-size: 20px;
+      }
+      body.peak-hunter-map-page .peak-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--ph-border);
+        color: inherit;
+        text-align: center;
+        text-decoration: none;
+      }
+      body.peak-hunter-map-page .peak-art {
+        display: block;
+        width: calc(100% - 26px);
+        height: auto;
+        aspect-ratio: 232 / 258;
+        margin: 16px 13px 0;
+      }
+      body.peak-hunter-map-page .peak-name {
+        padding: 4px 40px 8px;
+        font-size: 28px;
+      }
+      body.peak-hunter-map-page .info-link {
+        position: absolute;
+        right: 7px;
+        bottom: 8px;
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border: 3px solid currentColor;
+        border-radius: 50%;
+        color: inherit;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1;
+        text-decoration: none;
+      }
+      @media (max-width: 700px) {
+        body.peak-hunter-map-page .page-header {
+          height: auto;
+          min-height: 48px;
+          justify-content: center;
+          padding: 8px;
+        }
+        body.peak-hunter-map-page .nav-links {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        body.peak-hunter-map-page .main-layout {
+          grid-template-columns: minmax(0, 1fr);
+          grid-template-rows: minmax(320px, 55vh) auto;
+          height: auto;
+          min-height: 0;
+          padding: 0 14px 18px;
+        }
+        body.peak-hunter-map-page .sidebar {
+          width: min(100%, 360px);
+          margin: 0 auto;
+        }
+        body.peak-hunter-map-page .brand {
+          margin: 8px 0 18px;
+        }
+        body.peak-hunter-map-page .peak-select {
+          margin-bottom: 20px;
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
-    <div class="topbar">
-      <div class="brand">Peak Hunter</div>
-      <div class="status">Trail Map Ready</div>
-    </div>
-
-    <div id="map" aria-label="Peak Hunter map"></div>
-
-    <div class="legend">
-      <h3>Legend</h3>
-      <div class="legend-item"><span class="dot peak"></span> Peak</div>
-      <div class="legend-item"><span class="dot camp"></span> Camp</div>
-      <div class="legend-item"><span class="dot route"></span> Route</div>
-    </div>
+  <body class="peak-hunter-map-page">
+    <header class="page-header">
+      <nav class="nav-links" aria-label="Main navigation">
+         <a href="index.html">home</a>
+      <a href="map.html">map</a>
+      <a href="peaks-1.html" aria-current="page">peaks</a>
+      <a href="about.html">about us</a>
+      </nav>
+    </header>
+    <main class="main-layout">
+      <div id="map" role="application" aria-label="Interactive Peak Hunter map"></div>
+      <aside class="sidebar" aria-label="Peak information">
+        <h1 class="brand">Peak Hunter</h1>
+        <label for="peak-select" class="visually-hidden">Find your peak</label>
+        <select id="peak-select" class="peak-select" aria-label="Find your peak">
+          <option value="">find your peak</option>
+        </select>
+        <a class="peak-card" href="peaks-1.html" aria-label="Explore peaks">
+          <svg class="peak-art" viewBox="0 0 232 258" role="img" aria-label="Illustration of green hills beneath a cloudy blue sky" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#bce8fa" />
+                <stop offset="1" stop-color="#effcff" />
+              </linearGradient>
+            </defs>
+            <rect width="232" height="258" fill="url(#sky)" />
+            <path d="M65 73c-13 0-23-9-23-21 0-12 10-22 23-22 3-12 14-20 27-20 16 0 29 13 29 29 12 0 22 9 22 20 0 8-7 14-16 14H65z" fill="#fff" />
+            <path d="M0 176c31-3 54 1 82 8 34 9 64 1 93 9 21 5 39 15 57 13v52H0z" fill="#b9df69" />
+            <path d="M0 211c34 0 59-10 91-18 33-9 68-4 94 6 19 7 32 12 47 10v49H0z" fill="#86a900" />
+          </svg>
+          <span class="peak-name">name</span>
+        </a>
+        <a class="info-link" href="peaks-1.html" aria-label="More information about peaks" title="More information">i</a>
+      </aside>
+    </main>
 
     <script
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
-    <script>
-        const CEBU_CITY = [10.3157, 123.8854];
-        const INITIAL_ZOOM = 14.5;
-      const map = L.map('map', {
-        zoomControl: true,
-        scrollWheelZoom: true,
-      }).setView(CEBU_CITY, INITIAL_ZOOM);
-
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors',
-        maxZoom: 18,
-      }).addTo(map);
-
-      L.polyline(routeCoords, {
-        color: '#22c55e',
-        weight: 5,
-        opacity: 0.9,
-        dashArray: '10, 12'
-      }).addTo(map);
-      
-      peakData.forEach((peak) => {
-        const marker = L.marker(peak.coords).addTo(map);
-        marker.bindPopup(`
-          <div class="popup-title">${peak.name}</div>
-          <div>Elevation: ${peak.elevation}</div>
-          <div>${peak.desc}</div>
-        `);
-      });
-
-      campData.forEach((camp) => {
-        const icon = L.divIcon({
-          className: 'custom-div-icon',
-          html: '<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:#3b82f6;border:2px solid #dbeafe;box-shadow:0 0 0 2px rgba(59,130,246,0.15);"></span>',
-          iconSize: [18, 18],
-          iconAnchor: [9, 9]
-        });
-
-        const marker = L.marker(camp.coords, { icon }).addTo(map);
-        marker.bindPopup(`
-          <div class="popup-title">${camp.name}</div>
-          <div>${camp.desc}</div>
-        `);
-      });
-
-      const bounds = L.latLngBounds(routeCoords);
-      map.fitBounds(bounds.pad(0.4));
-    </script>
+    <script src="map.js"></script>
   </body>
 </html>

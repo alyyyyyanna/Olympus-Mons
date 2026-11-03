@@ -1,0 +1,20 @@
+{
+   "Peaks": [
+      { "name": "Osmeña Peak", "file": "Opeak.html", "lat": 9.821087, "lng": 123.443591, "image": "images/Opeak.jpg" },
+      { "name": "Sirao Peak", "file": "Sirao_Peak.html", "lat": 10.403568, "lng": 123.867799, "image": "images/Sirao.jpg" },
+      { "name": "Starbuks", "file": "Starbucks.html", "lat": 10.3121, "lng": 123.8645, "image": "images/Starbuks.jpg" },
+      { "name": "Kandungaw Peak", "file": "Kandungaw.html", "lat": 9.867258, "lng": 123.459688, "image": "images/Kandungaw.jpg" },
+      { "name": "Mount Mauyog", "file": "Mt_Mauyog.html", "lat": 10.460993, "lng": 123.828236, "image": "images/Mauyog.jpg" },
+      { "name": "Mount Naupa", "file": "Mt_Naupa.html", "lat": 10.275289, "lng": 123.732083, "image": "images/Naupa.jpg" },
+      { "name": "Dalas-ag Peak", "file": "Dalas-ag.html", "lat": 9.8642, "lng": 123.4503, "image": "images/Dalas-ag.jpg" },
+      { "name": "Mount Tagaytay", "file": "Mt_Tagaytay.html", "lat": 10.3708, "lng": 123.6811, "image": "images/Tagaytay.jpg" },
+      { "name": "Ablayan Peak", "file": "Ablayan.html", "lat": 9.6533, "lng": 123.4004, "image": "images/Ablayan.jpg" },
+      { "name": "Mount Mago", "file": "Mt_Mago.html", "lat": 10.591372, "lng": 123.907051, "image": "images/Mago.jpg" },
+      { "name": "Tabon Peak", "file": "Tabon.html", "lat": 9.784931, "lng": 123.447826, "image": "images/Tabon.jpg" },
+      { "name": "Mount Lanaya", "file": "Mt_Lanaya.html", "lat": 9.703844, "lng": 123.352566, "image": "images/Lanaya.jpg" },
+      { "name": "Pangilatan Peak", "file": "Pangilatan.html", "lat": 10.25013, "lng": 123.765296, "image": "images/Pangilatan.jpg" },
+      { "name": "Mount Alpaco", "file": "Mt_Alpaco.html", "lat": 10.24206, "lng": 123.69424, "image": "images/Alpaco.jpg" },
+      { "name": "Licos Peak", "file": "Licos_Peak.html","lat": 10.5047,"lng": 123.9327,"image":"images/Licos.jpg"},
+      { "name": "Mount Lantawan", "file": "Mt_Lantawan.html", "lat": 10.557311, "lng": 123.956651, "image": "images/Lantawan.jpg" }
+   ]
+}
