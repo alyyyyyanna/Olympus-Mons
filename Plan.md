@@ -1,6 +1,6 @@
 ---
-name: Peak Hunter frontend
-overview: Build Peak Hunter in Desktop/Peak Hunter as a static HTML/CSS/JS site, using the process to learn how the three layers work together, then publish it with GitHub Pages on the existing alyyyyyanna/Peak-Hunter repo.
+name: Olympus Mons frontend
+overview: Build Olympus Mons in Desktop/Peak Hunter as a static HTML/CSS/JS site, using the process to learn how the three layers work together, then publish it with GitHub Pages on the existing alyyyyyanna/Peak-Hunter repo.
 todos:
   - id: move-workspace
     content: Move agent root to Desktop/Peak Hunter before any file work
@@ -26,7 +26,7 @@ todos:
 isProject: false
 ---
 
-# Peak Hunter: learn frontend while shipping the site
+# Olympus Mons: learn frontend while shipping the site
 
 You already have `[C:\Users\Admin\Desktop\Peak Hunter](C:\Users\Admin\Desktop\Peak Hunter)` with git remote [https://github.com/alyyyyyanna/Peak-Hunter.git](https://github.com/alyyyyyanna/Peak-Hunter.git). The only page so far is an empty `[about.html](C:\Users\Admin\Desktop\Peak Hunter\about.html)`. Photos can wait; names (and coords when you have them) go in `peaks.json`.
 
@@ -106,7 +106,7 @@ flowchart TD
 ## File layout (from your PDF, plus a little JS)
 
 ```
-Peak Hunter/
+Olympus Mons/
   index.html          Home (hero + slideshow later)
   about.html          Motive, process, links
   peaks-1.html        Peaks 1–8
@@ -136,7 +136,7 @@ Each 2-hour session: one small visible win, then commit.
 
 **Best first change:** `index.html` + `style.css` with a top-right nav of four links. Everything else hangs off that.
 
-You already know Leaflet from Jeepney Router: CDN CSS + JS, a map `div`, `L.map()`, `L.marker()`. Peak Hunter’s Map page adds: load `peaks.json`, a `<select>` of 16 names, on change fly to that marker and show its image; the ℹ button is just `<a href="peaks/...">`.
+You already know Leaflet from Jeepney Router: CDN CSS + JS, a map `div`, `L.map()`, `L.marker()`. Olympus Mons’s Map page adds: load `peaks.json`, a `<select>` of 16 names, on change fly to that marker and show its image; the ℹ button is just `<a href="peaks/...">`.
 
 ## GitHub website (Pages)
 

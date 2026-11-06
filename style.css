@@ -1,4 +1,4 @@
-/* Peak Hunter
+/* Olympus Mons
    Field-journal palette drawn from the terrace, lagoon, and highland references:
    forest ink, moss, meadow gold, clay, sage, and a strip of sky. */
 
@@ -60,12 +60,21 @@ body:has(#home) {
   top: 0;
   z-index: 30;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.5rem;
   padding: 0.85rem 1.2rem;
   background: rgba(243, 239, 228, 0.9);
   backdrop-filter: blur(14px);
+}
+
+.site-header nav,
+body:has(.story) .nav-links,
+.ph-peaks-page .ph-nav,
+body.peak-hunter-map-page .page-header .nav-links,
+.pd-peak-page .pd-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
 }
 
 .site-header a {
@@ -361,6 +370,27 @@ body.peak-hunter-map-page .brand {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+}
+
+.peak-list a {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
+
+.peak-list a span {
+  padding: 0.75rem 0.9rem 0.95rem;
+  color: var(--forest);
+  font-family: var(--serif);
+  font-size: 1.15rem;
+}
+
+.peak-list .search-empty {
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
 }
 
 .saved-section {
@@ -754,6 +784,11 @@ body.peak-hunter-map-page {
   font-family: var(--sans);
 }
 
+body.peak-hunter-map-page .page-header {
+  height: auto;
+  min-height: 48px;
+}
+
 body.peak-hunter-map-page .nav-links a {
   border-radius: 999px;
   background: var(--paper-2);
@@ -811,6 +846,10 @@ body.peak-hunter-map-page .peak-card:focus-visible {
 
 body.peak-hunter-map-page .peak-art {
   border-radius: 12px;
+}
+
+body.peak-hunter-map-page img.peak-art {
+  object-fit: cover;
 }
 
 body.peak-hunter-map-page .peak-name {
@@ -894,6 +933,54 @@ body.peak-hunter-map-page .info-link:focus-visible {
 .leaflet-control-attribution {
   background: rgba(243, 239, 228, 0.88) !important;
   color: var(--ink-soft) !important;
+}
+
+/* Logo sits in the same top-right row as the nav links. */
+a.nav-logo,
+.site-header a.nav-logo,
+body:has(.story) .nav-links a.nav-logo,
+.ph-peaks-page .ph-nav a.nav-logo,
+.pd-peak-page .pd-nav a.nav-logo,
+body.peak-hunter-map-page .nav-links a.nav-logo {
+  display: inline-grid;
+  align-self: center;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  margin: 0 auto 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  overflow: visible;
+  line-height: 0;
+}
+
+a.nav-logo:hover,
+a.nav-logo:focus-visible,
+.site-header a.nav-logo:hover,
+.site-header a.nav-logo:focus-visible,
+body:has(.story) .nav-links a.nav-logo:hover,
+body:has(.story) .nav-links a.nav-logo:focus-visible,
+.ph-peaks-page .ph-nav a.nav-logo:hover,
+.ph-peaks-page .ph-nav a.nav-logo:focus-visible,
+.pd-peak-page .pd-nav a.nav-logo:hover,
+.pd-peak-page .pd-nav a.nav-logo:focus-visible,
+body.peak-hunter-map-page .nav-links a.nav-logo:hover,
+body.peak-hunter-map-page .nav-links a.nav-logo:focus-visible {
+  background: transparent;
+  border-color: transparent;
+  color: inherit;
+  transform: none;
+}
+
+a.nav-logo img {
+  display: block;
+  width: auto;
+  height: 42px;
+  max-width: none;
+  object-fit: contain;
+  border-radius: 10px;
 }
 
 /* ------------------------------------------------------------------ */

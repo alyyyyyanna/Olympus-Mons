@@ -14,13 +14,36 @@
 
   const markers = [];
 
+  function peakPage(file) {
+    if (!file) return "peaks-1.html";
+    if (/^(https?:|peaks\/|\.\.\/)/.test(file)) return file;
+    return "peaks/" + file.replace(/^\.\//, "");
+  }
+
+  function showPhoto(peak) {
+    if (!peak.image) return;
+    let photo = card.querySelector("img.peak-art");
+    if (!photo) {
+      photo = document.createElement("img");
+      photo.className = "peak-art";
+      const placeholder = card.querySelector(".peak-art");
+      if (placeholder) placeholder.replaceWith(photo);
+      else card.insertBefore(photo, cardName);
+    }
+    photo.src = peak.image;
+    photo.alt = "Photo of " + peak.name;
+  }
+
   function showPeak(i, fly) {
     const p = markers[i].peak;
+    const page = peakPage(p.file);
     select.value = String(i);
     cardName.textContent = p.name;
-    card.href = p.file;
-    infoLink.href = p.file;
+    card.href = page;
+    card.setAttribute("aria-label", p.name);
+    infoLink.href = page;
     infoLink.setAttribute("aria-label", "More information about " + p.name);
+    showPhoto(p);
     if (fly) map.flyTo([p.lat, p.lng], 13);
     markers[i].marker.openPopup();
   }
@@ -34,8 +57,9 @@
       const peaks = data.Peaks || data.peaks || [];
       peaks.forEach((p, i) => {
         const marker = L.marker([p.lat, p.lng]).addTo(map);
+        const page = peakPage(p.file);
         marker.bindPopup(
-          `<strong>${p.name}</strong>${p.image ? `<br><img src="${p.image}" alt="${p.name}" style="width:100%; max-width:220px; height:auto;">` : ""}<br><a href="${p.file}">More information</a>`
+          `<strong>${p.name}</strong><br><a href="${page}">More information</a>`
         );
         marker.on("click", () => showPeak(i, false));
         markers.push({ peak: p, marker });
