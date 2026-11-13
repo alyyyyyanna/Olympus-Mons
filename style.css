@@ -326,17 +326,15 @@ body.peak-hunter-map-page .brand {
   color: #8a8172;
 }
 
-.peak-list,
-.saved-peaks {
+.peak-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: 1.1rem;
   margin-top: 1.5rem;
 }
 
-.peak-list:not(:has(> *))::before,
-.saved-peaks:not(:has(> *))::before {
-  content: "Your trail notes will gather here.";
+.peak-list:not(:has(> *))::before {
+  content: "The summit list connects here. Open Peaks or the map to choose a trail.";
   grid-column: 1 / -1;
   padding: 1.6rem 1.2rem;
   border: 1px dashed rgba(84, 113, 49, 0.45);
@@ -347,16 +345,7 @@ body.peak-hunter-map-page .brand {
   text-align: center;
 }
 
-.peak-list:not(:has(> *))::before {
-  content: "The summit list connects here. Open Peaks or the map to choose a trail.";
-}
-
-.saved-peaks:not(:has(> *))::before {
-  content: "No summits logged yet. The ones you keep will live in this notebook.";
-}
-
-.peak-list > *,
-.saved-peaks > * {
+.peak-list > * {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -364,8 +353,7 @@ body.peak-hunter-map-page .brand {
   box-shadow: var(--shadow);
 }
 
-.peak-list img,
-.saved-peaks img {
+.peak-list img {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -391,13 +379,6 @@ body.peak-hunter-map-page .brand {
   border: 0;
   box-shadow: none;
   background: transparent;
-}
-
-.saved-section {
-  padding: 1.6rem 1.4rem 1.8rem;
-  border-radius: 28px;
-  background:
-    linear-gradient(180deg, rgba(162, 183, 176, 0.28), rgba(162, 183, 176, 0.12));
 }
 
 .about-section {
